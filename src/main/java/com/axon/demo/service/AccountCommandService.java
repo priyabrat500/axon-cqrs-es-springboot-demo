@@ -7,6 +7,7 @@ import com.axon.demo.command.CreateAccountCommand;
 import com.axon.demo.command.CreditMoneyCommand;
 import com.axon.demo.controller.dto.MoneyAmountDTO;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AccountCommandService {
     private final CommandGateway commandGateway;
 
     public CompletableFuture<BankAccount> createAccount(AccountCreationDTO creationDTO) {
+        log.info("Inside create account service");
         return this.commandGateway.send(new CreateAccountCommand(
                 UUID.randomUUID(),
                 creationDTO.getInitialBalance(),
@@ -28,6 +31,7 @@ public class AccountCommandService {
 
     public CompletableFuture<String> creditMoneyToAccount(String accountId,
                                                           MoneyAmountDTO moneyCreditDTO) {
+        log.info("Inside creditMoneyToAccount service");
         return this.commandGateway.send(new CreditMoneyCommand(
                 ServiceUtils.formatUuid(accountId),
                 moneyCreditDTO.getAmount()
