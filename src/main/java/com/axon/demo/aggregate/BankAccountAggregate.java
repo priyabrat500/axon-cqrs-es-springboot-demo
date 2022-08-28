@@ -54,6 +54,7 @@ public class BankAccountAggregate {
 
     @CommandHandler
     public void handle(CreditMoneyCommand command) {
+        log.info("Inside CreditMoneyCommand Handler");
         AggregateLifecycle.apply(
                 new MoneyCreditedEvent(
                         command.getAccountId(),
@@ -69,6 +70,7 @@ public class BankAccountAggregate {
 
     @CommandHandler
     public void handle(DebitMoneyCommand command) {
+        log.info("Inside DebitMoneyCommand Handler");
         AggregateLifecycle.apply(
                 new MoneyDebitedEvent(
                         command.getAccountId(),
